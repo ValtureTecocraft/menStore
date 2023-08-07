@@ -29,6 +29,10 @@ const Login: React.FC = () => {
     setState({ ...state, IPassword: true });
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <div className="fixed z-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-screen overflow-hidden">
@@ -41,7 +45,10 @@ const Login: React.FC = () => {
         >
           Men's Shop
         </Link>
-        <div className="w-80 h-fit bg-white/10 shadow-xl backdrop-blur-xl rounded-lg px-6 py-5 gap-4 flex flex-col">
+        <form
+          onSubmit={handleSubmit}
+          className="w-80 h-fit shadow-xl bg-white/10 rounded-lg px-6 py-5 gap-4 flex flex-col"
+        >
           <h2 className="text-3xl text-center font-semibold">Login</h2>
           <div className="relative mt-4">
             <label
@@ -97,7 +104,7 @@ const Login: React.FC = () => {
 
           <button
             className="w-full h-10 mt-3 duration-300 bg-white/80 hover:bg-white/90 font-semibold rounded-md"
-            type="button"
+            type="submit"
           >
             Login
           </button>
@@ -108,7 +115,7 @@ const Login: React.FC = () => {
               <Link to={"/signup"}>Click Here</Link>
             </span>
           </p>
-        </div>
+        </form>
       </div>
     </>
   );
