@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import { AiFillHeart, AiOutlineClose } from "react-icons/ai";
 import { MdShoppingCart } from "react-icons/md";
@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <div className="fixed w-full flex justify-center shadow-lg items-center">
+    <div className="fixed w-full flex bg-white justify-center shadow-lg items-center">
       <div className="relative max-w-7xl w-full py-3 px-5 flex justify-between items-center">
         <div
           className={`w-fit transition-transform duration-300 flex justify-center items-center border-2 rounded ${
@@ -58,7 +58,7 @@ const Navbar: React.FC = () => {
 
         <Link
           to={"/"}
-          className="absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer text-3xl font-bold select-none"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer text-3xl font-bold select-none"
         >
           Men's Shop
         </Link>

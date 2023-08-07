@@ -31,10 +31,16 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-screen overflow-hidden">
+      <div className="fixed z-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-screen overflow-hidden">
         <img className="w-screen h-screen" src={loginBg} alt="bg img Login" />
       </div>
       <div className="z-10 backdrop-blur w-full h-screen flex justify-center items-center">
+        <Link
+          to={"/"}
+          className="fixed z-30 top-5 left-5 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent cursor-pointer text-3xl font-bold select-none"
+        >
+          Men's Shop
+        </Link>
         <div className="w-80 h-fit bg-white/10 shadow-xl backdrop-blur-xl rounded-lg px-6 py-5 gap-4 flex flex-col">
           <h2 className="text-3xl text-center font-semibold">Login</h2>
           <div className="relative mt-4">
