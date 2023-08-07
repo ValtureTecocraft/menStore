@@ -66,7 +66,7 @@ const Navbar: React.FC = () => {
         <div className="gap-8 text-2xl flex justify-center items-center">
           <Link
             to={"/login"}
-            className=" w-24 h-10 duration-300 text-gray-100 ease-in transition-all flex justify-center items-center pb-1 rounded hover:rounded-full hover:bg-gray-500 bg-gray-400"
+            className=" w-24 h-10 duration-300 text-gray-800 ease-in transition-all flex justify-center items-center pb-1 rounded border-2 border-gray-800 h hover:text-gray-200 hover:rounded-full hover:bg-gray-500"
             type="button"
           >
             Login
