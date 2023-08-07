@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <div className="w-full flex justify-center shadow-lg items-center">
+    <div className="fixed w-full flex justify-center shadow-lg items-center">
       <div className="relative max-w-7xl w-full py-3 px-5 flex justify-between items-center">
         <div
           className={`w-fit transition-transform duration-300 flex justify-center items-center border-2 rounded ${
@@ -58,18 +58,19 @@ const Navbar: React.FC = () => {
 
         <Link
           to={"/"}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer text-3xl font-bold select-none"
+          className="absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer text-3xl font-bold select-none"
         >
           Men's Shop
         </Link>
 
-        <div className="gap-4 text-2xl flex justify-center items-center">
-          <button
-            className=" w-24 h-10 duration-300 ease-in transition-all flex justify-center items-center pb-1 rounded hover:rounded-full hover:bg-gray-400 bg-gray-300"
+        <div className="gap-8 text-2xl flex justify-center items-center">
+          <Link
+            to={"/login"}
+            className=" w-24 h-10 duration-300 text-gray-100 ease-in transition-all flex justify-center items-center pb-1 rounded hover:rounded-full hover:bg-gray-500 bg-gray-400"
             type="button"
           >
             Login
-          </button>
+          </Link>
           <AiFillHeart />
           <div>
             <MdShoppingCart />
