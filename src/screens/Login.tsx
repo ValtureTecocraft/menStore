@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import loginBg from "../assets/login-bg.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/auth";
 
 interface IState {
   email: string;
@@ -17,6 +18,9 @@ const Login: React.FC = () => {
     IPassword: false,
   });
 
+  const auth = useAuth();
+  const navigate = useNavigate();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
@@ -31,6 +35,7 @@ const Login: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    auth.login(state.email);
   };
 
   return (

@@ -72,9 +72,9 @@ const Navbar: React.FC = () => {
             Login
           </Link>
           <AiFillHeart />
-          <div>
+          <Link to={"/products"}>
             <MdShoppingCart />
-          </div>
+          </Link>
         </div>
       </div>
     </div>

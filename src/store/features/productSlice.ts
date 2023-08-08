@@ -60,5 +60,5 @@ const postSlice = createSlice({
 
 // Export the slice and the thunk
 export const { actions } = postSlice;
-export const { fetchProducts } = actions;
+// export const { fetchProducts } = actions;
 export default postSlice.reducer;
