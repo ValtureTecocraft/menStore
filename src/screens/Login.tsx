@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import loginBg from "../assets/login-bg.jpg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth";
 
 interface IState {
@@ -20,6 +20,8 @@ const Login: React.FC = () => {
 
   const auth = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const RedirectPath = location.state?.path || "/";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -36,6 +38,7 @@ const Login: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     auth.login(state.email);
+    navigate(RedirectPath, { replace: true });
   };
 
   return (
@@ -80,13 +83,13 @@ const Login: React.FC = () => {
               }
             />
           </div>
-          <div className="relative mt-2">
+          <div className="relative mt-4">
             <label
               className={`absolute duration-300 ${
                 state.IPassword
                   ? "-top-5 left-1 text-sm font-medium"
                   : "top-2 left-3"
-              } top-2 left-3`}
+              }`}
               htmlFor="password"
             >
               Password
@@ -96,11 +99,10 @@ const Login: React.FC = () => {
               type="password"
               id="password"
               name="password"
-              //   value={state.password}
               onChange={handleChange}
               onFocus={handleFocusPassword}
               onBlur={() =>
-                state.password.length !== 0
+                state.email.length !== 0
                   ? setState({ ...state, IPassword: true })
                   : setState({ ...state, IPassword: false })
               }

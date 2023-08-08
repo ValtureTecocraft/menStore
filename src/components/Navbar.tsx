@@ -3,7 +3,8 @@ import { BiSearchAlt } from "react-icons/bi";
 import { AiFillHeart, AiOutlineClose } from "react-icons/ai";
 import { MdShoppingCart } from "react-icons/md";
 import { Link } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/auth";
+import { useNavigate } from "react-router-dom";
 
 interface IState {
   toggle: boolean;
@@ -16,7 +17,10 @@ const Navbar: React.FC = () => {
     search: "",
   });
 
-  //   const navigate = useNavigate();
+  const auth = useAuth();
+  console.log(auth);
+
+  const navigate = useNavigate();
 
   const handleSearchClick = () => {
     setState({
@@ -24,6 +28,11 @@ const Navbar: React.FC = () => {
       toggle: !state.toggle,
       search: "",
     });
+  };
+
+  const handleLogout = () => {
+    auth.logout();
+    navigate("/");
   };
 
   return (
@@ -64,13 +73,22 @@ const Navbar: React.FC = () => {
         </Link>
 
         <div className="gap-8 text-2xl flex justify-center items-center">
-          <Link
-            to={"/login"}
-            className=" w-24 h-10 duration-300 text-gray-800 ease-in transition-all flex justify-center items-center pb-1 rounded border-2 border-gray-800 h hover:text-gray-200 hover:rounded-full hover:bg-gray-500"
-            type="button"
-          >
-            Login
-          </Link>
+          {!auth.user ? (
+            <Link
+              to={"/login"}
+              className=" w-24 h-10 duration-300 text-lg text-gray-800 ease-in transition-all flex justify-center items-center pb-1 rounded border-2 border-gray-800 h hover:text-gray-200 hover:rounded-full hover:bg-gray-500"
+            >
+              Login
+            </Link>
+          ) : (
+            <button
+              onClick={handleLogout}
+              className=" w-24 h-10 duration-300 text-lg text-red-800 ease-in transition-all flex justify-center items-center pb-1 rounded border-2 border-red-800 h hover:text-red-100 hover:rounded-full hover:bg-red-500"
+              type="button"
+            >
+              Logout
+            </button>
+          )}
           <AiFillHeart />
           <Link to={"/products"}>
             <MdShoppingCart />
