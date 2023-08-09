@@ -5,6 +5,7 @@ import Login from "./screens/Login";
 import Signup from "./screens/Signup";
 import Products from "./screens/Products";
 import { RequireAuth } from "./components/RequireAuth";
+import FormikLogin from "./screens/FormikLogin";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             </RequireAuth>
           }
         />
+        <Route path="/f-login" element={<FormikLogin />} />
       </Routes>
     </>
   );

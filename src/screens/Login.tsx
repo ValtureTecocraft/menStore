@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import loginBg from "../assets/login-bg.jpg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth";
@@ -17,6 +17,19 @@ const Login: React.FC = () => {
     IEmail: false,
     IPassword: false,
   });
+
+  useEffect(() => {
+    if (state.email.length !== 0) {
+      setState({ ...state, IEmail: true });
+    } else {
+      setState({ ...state, IEmail: false });
+    }
+    if (state.password.length !== 0) {
+      setState({ ...state, IPassword: true });
+    } else {
+      setState({ ...state, IPassword: false });
+    }
+  }, [state.email, state.password]);
 
   const auth = useAuth();
   const navigate = useNavigate();
@@ -37,8 +50,10 @@ const Login: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    auth.login(state.email);
-    navigate(RedirectPath, { replace: true });
+    if (state.email && state.password) {
+      auth.login(state.email);
+      navigate(RedirectPath, { replace: true });
+    }
   };
 
   return (

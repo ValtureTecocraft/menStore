@@ -18,7 +18,7 @@ const Navbar: React.FC = () => {
   });
 
   const auth = useAuth();
-  console.log(auth);
+  // console.log(auth);
 
   const navigate = useNavigate();
 
@@ -83,7 +83,7 @@ const Navbar: React.FC = () => {
           ) : (
             <button
               onClick={handleLogout}
-              className=" w-24 h-10 duration-300 text-lg text-red-800 ease-in transition-all flex justify-center items-center pb-1 rounded border-2 border-red-800 h hover:text-red-100 hover:rounded-full hover:bg-red-500"
+              className=" w-24 ripple h-10 duration-300 text-lg text-red-800 ease-in transition-all flex justify-center items-center pb-1 rounded border-2 border-red-800 h hover:text-red-100 hover:rounded-full hover:bg-red-500"
               type="button"
             >
               Logout
