@@ -18,17 +18,44 @@ const Login: React.FC = () => {
     IPassword: false,
   });
 
+  // useEffect(() => {
+  //   if (state.email.length !== 0) {
+  //     setState({ ...state, IEmail: true });
+  //   } else {
+  //     setState({ ...state, IEmail: false });
+  //   }
+
+  //   if (state.password.length !== 0) {
+  //     setState({ ...state, IPassword: true });
+  //   } else {
+  //     setState({ ...state, IPassword: false });
+  //   }
+
+  //   console.log(
+  //     "email:",
+  //     state.email,
+  //     state.IEmail,
+  //     "pass:",
+  //     state.password,
+  //     state.IPassword
+  //   );
+  // }, [state.email, state.password]);
+
   useEffect(() => {
-    if (state.email.length !== 0) {
-      setState({ ...state, IEmail: true });
-    } else {
-      setState({ ...state, IEmail: false });
-    }
-    if (state.password.length !== 0) {
-      setState({ ...state, IPassword: true });
-    } else {
-      setState({ ...state, IPassword: false });
-    }
+    setState((prevState) => ({
+      ...prevState,
+      IEmail: state.email.length !== 0,
+      IPassword: state.password.length !== 0,
+    }));
+
+    console.log(
+      "email:",
+      state.email,
+      state.IEmail,
+      "pass:",
+      state.password,
+      state.IPassword
+    );
   }, [state.email, state.password]);
 
   const auth = useAuth();
@@ -70,7 +97,7 @@ const Login: React.FC = () => {
         </Link>
         <form
           onSubmit={handleSubmit}
-          className="w-80 h-fit shadow-xl bg-white/10 rounded-lg px-6 py-5 gap-4 flex flex-col"
+          className="w-80 h-fit shadow-xl bg-white/10 border border-white/10 rounded-lg px-6 py-5 gap-4 flex flex-col"
         >
           <h2 className="text-3xl text-center font-semibold">Login</h2>
           <div className="relative mt-4">
@@ -85,17 +112,17 @@ const Login: React.FC = () => {
               Email
             </label>
             <input
-              className="w-full h-10 px-2 bg-white/20 rounded-md outline-none"
+              className="w-full h-10 px-2 bg-white/20 border border-white/20 rounded-md outline-none"
               type="email"
               id="email"
               name="email"
               onChange={handleChange}
-              onFocus={handleFocusEmail}
-              onBlur={() =>
-                state.email.length !== 0
-                  ? setState({ ...state, IEmail: true })
-                  : setState({ ...state, IEmail: false })
-              }
+              // onFocus={handleFocusEmail}
+              // onBlur={() =>
+              //   state.email.length !== 0
+              //     ? setState({ ...state, IEmail: true })
+              //     : setState({ ...state, IEmail: false })
+              // }
             />
           </div>
           <div className="relative mt-4">
@@ -110,17 +137,17 @@ const Login: React.FC = () => {
               Password
             </label>
             <input
-              className="w-full h-10 px-2 bg-white/20 rounded-md outline-none"
+              className="w-full h-10 px-2 bg-white/20 border border-white/20 rounded-md outline-none"
               type="password"
               id="password"
               name="password"
               onChange={handleChange}
-              onFocus={handleFocusPassword}
-              onBlur={() =>
-                state.email.length !== 0
-                  ? setState({ ...state, IPassword: true })
-                  : setState({ ...state, IPassword: false })
-              }
+              // onFocus={handleFocusPassword}
+              // onBlur={() =>
+              //   state.email.length !== 0
+              //     ? setState({ ...state, IPassword: true })
+              //     : setState({ ...state, IPassword: false })
+              // }
             />
           </div>
 
