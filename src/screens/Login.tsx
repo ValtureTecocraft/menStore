@@ -67,13 +67,13 @@ const Login: React.FC = () => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
 
-  const handleFocusEmail = () => {
-    setState({ ...state, IEmail: true });
-  };
+  // const handleFocusEmail = () => {
+  //   setState({ ...state, IEmail: true });
+  // };
 
-  const handleFocusPassword = () => {
-    setState({ ...state, IPassword: true });
-  };
+  // const handleFocusPassword = () => {
+  //   setState({ ...state, IPassword: true });
+  // };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
