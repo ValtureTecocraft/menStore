@@ -60,7 +60,7 @@ const Navbar: React.FC = () => {
                 className="text-xl text-gray-700"
               />
             ) : (
-              <BiSearchAlt className="text-2xl duration-300 text-gray-500 hover:text-black hover:scale-110" />
+              <BiSearchAlt className="text-2xl duration-300 ease-in-out text-gray-500 hover:text-black hover:scale-110" />
             )}
           </button>
         </div>
