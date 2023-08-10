@@ -1,12 +1,16 @@
 // using React-hook-form & yup
 
 import React, { useEffect, useState } from "react";
+import Button from "@mui/material/Button";
 import loginBg from "../assets/login-bg.jpg";
 import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signupSchema } from "../schemas";
 import { useForm } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
+// import { DevTool } from "@hookform/devtools";
+// import dayjs from "dayjs";
+// import * as isLeapYear from "dayjs/plugin/isLeapYear"; // import plugin
+import "dayjs/locale/zh-cn"; // import locale
 
 interface IState {
   errName: boolean;
@@ -48,6 +52,8 @@ const Signup: React.FC = () => {
     console.log("Form Submited:", data);
   };
 
+  // console.log(dayjs().format("DD/MM/YYYY"));
+
   // const {name, ref, onBlur, onChange} = register('name')
 
   // const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
@@ -69,14 +75,14 @@ const Signup: React.FC = () => {
   useEffect(() => {
     setState((prevState) => ({
       ...prevState,
-      errName: errors.name?.message?.length !== 0,
-      errEmail: errors.email?.message?.length !== 0,
-      errPassword: errors.password?.message?.length !== 0,
-      IName: watch("name").length !== 0,
-      IEmail: watch("email").length !== 0,
-      IPassword: watch("password").length !== 0,
+      errName: !!errors.name?.message,
+      errEmail: !!errors.email?.message,
+      errPassword: !!errors.password?.message,
+      IName: !!watch("name"),
+      IEmail: !!watch("email"),
+      IPassword: !!watch("password"),
     }));
-  }, [watch("name"), watch("email"), watch("password")]);
+  }, [watch("name"), watch("email"), watch("password"), errors]);
 
   return (
     <>
@@ -108,8 +114,10 @@ const Signup: React.FC = () => {
               Name
             </label>
             <input
-              className={`w-full h-10 px-2 bg-white/20 border ${
-                state.errName ? "border-red-400" : "border-white/20"
+              className={`w-full h-10 px-2 border ${
+                state.errName
+                  ? "border-red-400 bg-red-500/20"
+                  : "border-white/20 bg-white/20"
               } rounded-md outline-none`}
               type="text"
               id="name"
@@ -138,7 +146,11 @@ const Signup: React.FC = () => {
               Email
             </label>
             <input
-              className={`w-full h-10 px-2 bg-white/20 border border-white/20 rounded-md outline-none`}
+              className={`w-full h-10 px-2 border ${
+                state.errEmail
+                  ? "border-red-400 bg-red-500/20"
+                  : "border-white/20 bg-white/20"
+              } rounded-md outline-none`}
               type="email"
               id="email"
               {...register("email", {
@@ -171,7 +183,11 @@ const Signup: React.FC = () => {
               Password
             </label>
             <input
-              className={`w-full h-10 px-2 bg-white/20 border border-white/20 rounded-md outline-none`}
+              className={`w-full h-10 px-2 border ${
+                state.errPassword
+                  ? "border-red-400 bg-red-500/20"
+                  : "border-white/20 bg-white/20"
+              } rounded-md outline-none`}
               type="password"
               id="password"
               {...register("password", {
@@ -188,12 +204,21 @@ const Signup: React.FC = () => {
             <p className="error">{errors.password?.message}</p>
           </div>
 
-          <button
+          <Button
+            sx={{ opacity: 0.9 }}
+            variant="contained"
+            color="success"
+            type="submit"
+          >
+            SignUp
+          </Button>
+
+          {/* <button
             className="w-full h-10 mt-3 duration-300 bg-white/80 hover:bg-white/90 font-semibold rounded-md"
             type="submit"
           >
             SignUp
-          </button>
+          </button> */}
 
           <p className="text-center text-sm">
             Already have account?{" "}
@@ -203,7 +228,7 @@ const Signup: React.FC = () => {
           </p>
         </form>
       </div>
-      <DevTool control={control} />
+      {/* <DevTool control={control} /> */}
     </>
   );
 };
