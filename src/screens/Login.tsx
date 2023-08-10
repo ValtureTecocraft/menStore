@@ -1,87 +1,53 @@
+// using formik and yup
+
 import React, { useEffect, useState } from "react";
 import loginBg from "../assets/login-bg.jpg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth";
+import { useFormik } from "formik";
+import { loginSchema } from "../schemas";
 
 interface IState {
-  email: string;
-  password: string;
   IEmail: boolean;
   IPassword: boolean;
 }
 
 const Login: React.FC = () => {
   const [state, setState] = useState<IState>({
-    email: "",
-    password: "",
     IEmail: false,
     IPassword: false,
   });
-
-  // useEffect(() => {
-  //   if (state.email.length !== 0) {
-  //     setState({ ...state, IEmail: true });
-  //   } else {
-  //     setState({ ...state, IEmail: false });
-  //   }
-
-  //   if (state.password.length !== 0) {
-  //     setState({ ...state, IPassword: true });
-  //   } else {
-  //     setState({ ...state, IPassword: false });
-  //   }
-
-  //   console.log(
-  //     "email:",
-  //     state.email,
-  //     state.IEmail,
-  //     "pass:",
-  //     state.password,
-  //     state.IPassword
-  //   );
-  // }, [state.email, state.password]);
-
-  useEffect(() => {
-    setState((prevState) => ({
-      ...prevState,
-      IEmail: state.email.length !== 0,
-      IPassword: state.password.length !== 0,
-    }));
-
-    console.log(
-      "email:",
-      state.email,
-      state.IEmail,
-      "pass:",
-      state.password,
-      state.IPassword
-    );
-  }, [state.email, state.password]);
 
   const auth = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const RedirectPath = location.state?.path || "/";
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, [e.target.name]: e.target.value });
-  };
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: {
+        email: "",
+        password: "",
+      },
+      validationSchema: loginSchema,
+      onSubmit: (values, actions) => {
+        console.log(values);
+        if (values.email && values.password) {
+          auth.login(values.email);
+          navigate(RedirectPath, { replace: true });
+        }
+        actions.resetForm();
+      },
+    });
+  // console.log(errors);
 
-  // const handleFocusEmail = () => {
-  //   setState({ ...state, IEmail: true });
-  // };
-
-  // const handleFocusPassword = () => {
-  //   setState({ ...state, IPassword: true });
-  // };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (state.email && state.password) {
-      auth.login(state.email);
-      navigate(RedirectPath, { replace: true });
-    }
-  };
+  useEffect(() => {
+    setState((prevState) => ({
+      ...prevState,
+      IEmail: values.email.length !== 0,
+      IPassword: values.password.length !== 0,
+    }));
+  }, [values.email, values.password]);
 
   return (
     <>
@@ -116,14 +82,11 @@ const Login: React.FC = () => {
               type="email"
               id="email"
               name="email"
+              value={values.email}
               onChange={handleChange}
-              // onFocus={handleFocusEmail}
-              // onBlur={() =>
-              //   state.email.length !== 0
-              //     ? setState({ ...state, IEmail: true })
-              //     : setState({ ...state, IEmail: false })
-              // }
+              onBlur={handleBlur}
             />
+            {errors.email && touched.email ? <p>{errors.email}</p> : null}
           </div>
           <div className="relative mt-4">
             <label
@@ -141,13 +104,9 @@ const Login: React.FC = () => {
               type="password"
               id="password"
               name="password"
+              value={values.password}
               onChange={handleChange}
-              // onFocus={handleFocusPassword}
-              // onBlur={() =>
-              //   state.email.length !== 0
-              //     ? setState({ ...state, IPassword: true })
-              //     : setState({ ...state, IPassword: false })
-              // }
+              onBlur={handleBlur}
             />
           </div>
 

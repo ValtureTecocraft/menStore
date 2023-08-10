@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+// using React-hook-form & yup
+
+import React, { useEffect, useState } from "react";
 import loginBg from "../assets/login-bg.jpg";
 import { Link } from "react-router-dom";
+import { useFormik } from "formik";
+import { signupSchema } from "../schemas";
+import { useForm } from "react-hook-form";
 
 interface IState {
-  name: string;
-  email: string;
-  password: string;
+  // name: string;
+  // email: string;
+  // password: string;
   IName: boolean;
   IEmail: boolean;
   IPassword: boolean;
@@ -13,33 +18,42 @@ interface IState {
 
 const Signup: React.FC = () => {
   const [state, setState] = useState<IState>({
-    name: "",
-    email: "",
-    password: "",
+    // name: "",
+    // email: "",
+    // password: "",
     IName: false,
     IEmail: false,
     IPassword: false,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, [e.target.name]: e.target.value });
-  };
+  const form = useForm();
+  const { register } = form;
+  // const {name, ref, onBlur, onChange} = register('name')
 
-  const handleFocusName = () => {
-    setState({ ...state, IName: true });
-  };
+  // const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+  //   useFormik({
+  //     initialValues: {
+  //       name: "",
+  //       email: "",
+  //       password: "",
+  //     },
+  //     validationSchema: signupSchema,
+  //     onSubmit: (values, actions) => {
+  //       console.log(values);
+  //       actions.resetForm();
+  //     },
+  //   });
 
-  const handleFocusEmail = () => {
-    setState({ ...state, IEmail: true });
-  };
+  // console.log(errors);
 
-  const handleFocusPassword = () => {
-    setState({ ...state, IPassword: true });
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+  // useEffect(() => {
+  //   setState((prevState) => ({
+  //     ...prevState,
+  //     IName: values.name.length !== 0,
+  //     IEmail: values.email.length !== 0,
+  //     IPassword: values.password.length !== 0,
+  //   }));
+  // }, [values.name, values.email, values.password]);
 
   return (
     <>
@@ -73,14 +87,11 @@ const Signup: React.FC = () => {
               className="w-full h-10 px-2 bg-white/20 rounded-md outline-none"
               type="text"
               id="name"
-              name="name"
-              onChange={handleChange}
-              onFocus={handleFocusName}
-              onBlur={() =>
-                state.name.length !== 0
-                  ? setState({ ...state, IName: true })
-                  : setState({ ...state, IName: false })
-              }
+              {...register("name")}
+              // name={name}
+              // ref={ref}
+              // onChange={onChange}
+              // onBlur={onBlur}
             />
           </div>
           <div className="relative mt-2">
@@ -98,15 +109,13 @@ const Signup: React.FC = () => {
               className="w-full h-10 px-2 bg-white/20 rounded-md outline-none"
               type="email"
               id="email"
-              name="email"
-              onChange={handleChange}
-              onFocus={handleFocusEmail}
-              onBlur={() =>
-                state.email.length !== 0
-                  ? setState({ ...state, IEmail: true })
-                  : setState({ ...state, IEmail: false })
-              }
+              {...register("email")}
+              // name={name}
+              // ref={ref}
+              // onChange={onChange}
+              // onBlur={onBlur}
             />
+            {errors.email && touched.email ? <p>{errors.email}</p> : null}
           </div>
           <div className="relative mt-2">
             <label
@@ -114,7 +123,7 @@ const Signup: React.FC = () => {
                 state.IPassword
                   ? "-top-5 left-1 text-sm font-medium"
                   : "top-2 left-3"
-              } top-2 left-3`}
+              }`}
               htmlFor="password"
             >
               Password
@@ -123,15 +132,11 @@ const Signup: React.FC = () => {
               className="w-full h-10 px-2 bg-white/20 rounded-md outline-none"
               type="password"
               id="password"
-              name="password"
-              //   value={state.password}
-              onChange={handleChange}
-              onFocus={handleFocusPassword}
-              onBlur={() =>
-                state.password.length !== 0
-                  ? setState({ ...state, IPassword: true })
-                  : setState({ ...state, IPassword: false })
-              }
+              {...register("password")}
+              // name={name}
+              // ref={ref}
+              // onChange={onChange}
+              // onBlur={onBlur}
             />
           </div>
 
