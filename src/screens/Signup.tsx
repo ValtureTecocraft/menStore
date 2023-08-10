@@ -3,31 +3,51 @@
 import React, { useEffect, useState } from "react";
 import loginBg from "../assets/login-bg.jpg";
 import { Link } from "react-router-dom";
-import { useFormik } from "formik";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { signupSchema } from "../schemas";
 import { useForm } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
 
 interface IState {
-  // name: string;
-  // email: string;
-  // password: string;
+  errName: boolean;
+  errEmail: boolean;
+  errPassword: boolean;
   IName: boolean;
   IEmail: boolean;
   IPassword: boolean;
 }
 
+interface FormValues {
+  name: string;
+  email: string;
+  password: string;
+}
+
 const Signup: React.FC = () => {
   const [state, setState] = useState<IState>({
-    // name: "",
-    // email: "",
-    // password: "",
+    errName: false,
+    errEmail: false,
+    errPassword: false,
     IName: false,
     IEmail: false,
     IPassword: false,
   });
 
-  const form = useForm();
-  const { register } = form;
+  const form = useForm<FormValues>({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+    resolver: yupResolver(signupSchema),
+  });
+  const { register, control, handleSubmit, formState, watch } = form;
+  const { errors } = formState;
+
+  const onSubmit = (data: FormValues) => {
+    console.log("Form Submited:", data);
+  };
+
   // const {name, ref, onBlur, onChange} = register('name')
 
   // const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
@@ -46,14 +66,17 @@ const Signup: React.FC = () => {
 
   // console.log(errors);
 
-  // useEffect(() => {
-  //   setState((prevState) => ({
-  //     ...prevState,
-  //     IName: values.name.length !== 0,
-  //     IEmail: values.email.length !== 0,
-  //     IPassword: values.password.length !== 0,
-  //   }));
-  // }, [values.name, values.email, values.password]);
+  useEffect(() => {
+    setState((prevState) => ({
+      ...prevState,
+      errName: errors.name?.message?.length !== 0,
+      errEmail: errors.email?.message?.length !== 0,
+      errPassword: errors.password?.message?.length !== 0,
+      IName: watch("name").length !== 0,
+      IEmail: watch("email").length !== 0,
+      IPassword: watch("password").length !== 0,
+    }));
+  }, [watch("name"), watch("email"), watch("password")]);
 
   return (
     <>
@@ -68,8 +91,9 @@ const Signup: React.FC = () => {
           Men's Shop
         </Link>
         <form
-          onSubmit={handleSubmit}
-          className="w-80 h-fit bg-white/10 shadow-xl rounded-lg px-6 py-5 gap-4 flex flex-col"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+          className="w-80 h-fit shadow-xl bg-white/10 border border-white/10 rounded-lg px-6 py-5 gap-4 flex flex-col"
         >
           <h2 className="text-3xl text-center font-semibold">SignUp</h2>
           <div className="relative mt-4">
@@ -84,15 +108,23 @@ const Signup: React.FC = () => {
               Name
             </label>
             <input
-              className="w-full h-10 px-2 bg-white/20 rounded-md outline-none"
+              className={`w-full h-10 px-2 bg-white/20 border ${
+                state.errName ? "border-red-400" : "border-white/20"
+              } rounded-md outline-none`}
               type="text"
               id="name"
-              {...register("name")}
+              {...register("name", {
+                // required: {
+                //   value: true,
+                //   message: "Name is required",
+                // },
+              })}
               // name={name}
               // ref={ref}
               // onChange={onChange}
               // onBlur={onBlur}
             />
+            <p className="error">{errors.name?.message}</p>
           </div>
           <div className="relative mt-2">
             <label
@@ -106,16 +138,26 @@ const Signup: React.FC = () => {
               Email
             </label>
             <input
-              className="w-full h-10 px-2 bg-white/20 rounded-md outline-none"
+              className={`w-full h-10 px-2 bg-white/20 border border-white/20 rounded-md outline-none`}
               type="email"
               id="email"
-              {...register("email")}
+              {...register("email", {
+                // required: {
+                //   value: true,
+                //   message: "Email is required.",
+                // },
+                pattern: {
+                  value:
+                    /^(?:(?!.*?[.]{2})[a-zA-Z0-9](?:[a-zA-Z0-9.+!%-]{1,64}|)|\"[a-zA-Z0-9.+!% -]{1,64}\")@[a-zA-Z0-9][a-zA-Z0-9.-]+(.[a-z]{2,}|.[0-9]{1,})$/,
+                  message: "Invalid email.",
+                },
+              })}
               // name={name}
               // ref={ref}
               // onChange={onChange}
               // onBlur={onBlur}
             />
-            {errors.email && touched.email ? <p>{errors.email}</p> : null}
+            <p className="error">{errors.email?.message}</p>
           </div>
           <div className="relative mt-2">
             <label
@@ -129,15 +171,21 @@ const Signup: React.FC = () => {
               Password
             </label>
             <input
-              className="w-full h-10 px-2 bg-white/20 rounded-md outline-none"
+              className={`w-full h-10 px-2 bg-white/20 border border-white/20 rounded-md outline-none`}
               type="password"
               id="password"
-              {...register("password")}
+              {...register("password", {
+                // required: {
+                //   value: true,
+                //   message: "Password is required.",
+                // },
+              })}
               // name={name}
               // ref={ref}
               // onChange={onChange}
               // onBlur={onBlur}
             />
+            <p className="error">{errors.password?.message}</p>
           </div>
 
           <button
@@ -155,6 +203,7 @@ const Signup: React.FC = () => {
           </p>
         </form>
       </div>
+      <DevTool control={control} />
     </>
   );
 };

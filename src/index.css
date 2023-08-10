@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+.error {
+  @apply text-red-700 text-sm;
+}
