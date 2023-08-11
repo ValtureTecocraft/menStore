@@ -65,6 +65,8 @@ const Login: React.FC = () => {
           onSubmit={handleSubmit}
           className="w-80 h-fit shadow-xl bg-white/10 border border-white/10 rounded-lg px-6 py-5 gap-4 flex flex-col"
         >
+          <div>
+          </div>
           <h2 className="text-3xl text-center font-semibold">Login</h2>
           <div className="relative mt-4">
             <label

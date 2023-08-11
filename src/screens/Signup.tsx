@@ -11,6 +11,8 @@ import { useForm } from "react-hook-form";
 // import dayjs from "dayjs";
 // import * as isLeapYear from "dayjs/plugin/isLeapYear"; // import plugin
 import "dayjs/locale/zh-cn"; // import locale
+import Loading from "../components/Loading";
+import { TextField } from "@mui/material";
 
 interface IState {
   errName: boolean;
@@ -19,6 +21,7 @@ interface IState {
   IName: boolean;
   IEmail: boolean;
   IPassword: boolean;
+  loading: boolean;
 }
 
 interface FormValues {
@@ -35,6 +38,7 @@ const Signup: React.FC = () => {
     IName: false,
     IEmail: false,
     IPassword: false,
+    loading: false,
   });
 
   const form = useForm<FormValues>({
@@ -43,10 +47,11 @@ const Signup: React.FC = () => {
       email: "",
       password: "",
     },
+    mode: "all",
     resolver: yupResolver(signupSchema),
   });
-  const { register, control, handleSubmit, formState, watch } = form;
-  const { errors } = formState;
+  const { register, control, handleSubmit, formState, watch, trigger } = form;
+  const { errors, isSubmitting } = formState;
 
   const onSubmit = (data: FormValues) => {
     console.log("Form Submited:", data);
@@ -70,8 +75,6 @@ const Signup: React.FC = () => {
   //     },
   //   });
 
-  // console.log(errors);
-
   useEffect(() => {
     setState((prevState) => ({
       ...prevState,
@@ -82,12 +85,27 @@ const Signup: React.FC = () => {
       IEmail: !!watch("email"),
       IPassword: !!watch("password"),
     }));
-  }, [watch("name"), watch("email"), watch("password"), errors]);
+    // console.log(state);
+  }, [
+    watch("name"),
+    watch("email"),
+    watch("password"),
+    errors.name?.message,
+    errors.email?.message,
+    errors.password?.message,
+    state.errName,
+    state.errEmail,
+  ]);
 
   return (
     <>
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-screen overflow-hidden">
-        <img className="w-screen h-screen" src={loginBg} alt="bg img Login" />
+      {isSubmitting && <Loading />}
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-screen flex justify-center items-center overflow-hidden">
+        <img
+          className="min-w-[1180px] w-full h-full"
+          src={loginBg}
+          alt="bg img Login"
+        />
       </div>
       <div className="z-10 backdrop-blur w-full h-screen flex justify-center items-center">
         <Link
@@ -171,7 +189,21 @@ const Signup: React.FC = () => {
             />
             <p className="error">{errors.email?.message}</p>
           </div>
-          <div className="relative mt-2">
+          <TextField
+            className={``}
+            required
+            id="outlined-password"
+            error={state.errPassword}
+            helperText={errors.password?.message}
+            label="Password"
+            {...register("password", {
+              required: {
+                value: true,
+                message: "Password is required.",
+              },
+            })}
+          />
+          {/* <div className="relative mt-2">
             <label
               className={`absolute duration-300 ${
                 state.IPassword
@@ -202,15 +234,27 @@ const Signup: React.FC = () => {
               // onBlur={onBlur}
             />
             <p className="error">{errors.password?.message}</p>
-          </div>
+          </div> */}
 
           <Button
-            sx={{ opacity: 0.9 }}
+            className="opacity-90"
             variant="contained"
             color="success"
             type="submit"
           >
             SignUp
+          </Button>
+          <Button
+            onClick={() => trigger()}
+            // classes={{
+            //   root: "bg-red-600 hover:bg-red-700",
+            // }}
+            className="bg-red-600 hover:bg-red-700 opacity-90"
+            variant="contained"
+            color="secondary"
+            type="button"
+          >
+            Validate
           </Button>
 
           {/* <button
