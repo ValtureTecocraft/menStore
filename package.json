@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "json": "json-server --watch db.json --port 4000"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -16,14 +17,17 @@
     "@mui/material": "^5.14.4",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/axios": "^0.14.0",
+    "@types/json-server": "^0.14.4",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.4.0",
     "dayjs": "^1.11.9",
     "formik": "^2.4.3",
+    "json-server": "^0.17.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.4",
     "react-icons": "^4.10.1",
+    "react-query": "^3.39.3",
     "react-redux": "^8.1.2",
     "react-router-dom": "^6.14.2",
     "yup": "^1.2.0"
