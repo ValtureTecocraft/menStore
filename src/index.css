@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 .error {
-  @apply text-red-700 text-sm;
+	@apply text-red-700 text-sm font-medium;
 }
 
 .btnGreen {
-  @apply px-3 py-1 duration-300 ease-in bg-green-500 hover:bg-green-600 text-white rounded-md hover:ring-1 ring-offset-2 ring-green-500;
+	@apply px-3 py-1 duration-300 ease-in bg-green-500 focus:bg-green-600 text-white rounded-md hover:ring-1 ring-offset-2 ring-green-500;
 }
