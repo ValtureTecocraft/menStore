@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 const NavBar: React.FC = () => {
   return (
     <nav className="navLink w-full flex justify-center items-center bg-gray-300 shadow-lg">
-      <ul className="max-w-7xl px-3 w-full h-8 gap-6 flex items-center">
+      <ul className="max-w-7xl px-3 py-2 w-full gap-6 flex items-center justify-between">
         <li className="text-blue-500">
           <NavLink to="/">Home</NavLink>
         </li>
@@ -25,6 +25,9 @@ const NavBar: React.FC = () => {
         </li>
         <li className="text-blue-500">
           <NavLink to="/infinite-query">Infinite</NavLink>
+        </li>
+        <li className="text-blue-500">
+          <NavLink to="/mutated-query">Mutating</NavLink>
         </li>
       </ul>
     </nav>

@@ -11,5 +11,5 @@
 }
 
 .btnGreen {
-  @apply px-3 py-1 duration-300 ease-in bg-green-500 focus:bg-green-600 disabled:bg-gray-400 text-white rounded-md hover:ring-1 disabled:ring-0 ring-offset-2 ring-green-500;
+  @apply px-3 py-1 duration-300 ease-in uppercase font-medium bg-green-500 focus:bg-green-600 disabled:bg-gray-400 text-white rounded-md hover:ring-1 disabled:ring-0 ring-offset-2 ring-green-500;
 }

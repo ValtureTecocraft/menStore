@@ -11,6 +11,7 @@ import DynamicParallelQueries from "./screens/DynamicParallelQueries";
 import DependentQueries from "./screens/DependentQueries";
 import { PaginatedQueries } from "./screens/PaginatedQuery";
 import { InfiniteQueriesPage } from "./screens/InfiniteQuery";
+import { MutatingQueries } from "./screens/MutatingQueries";
 
 function App() {
   const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ function App() {
       <NavBar />
 
       <Routes>
+        <Route path="/mutated-query" element={<MutatingQueries />} />
         <Route path="/infinite-query" element={<InfiniteQueriesPage />} />
         <Route path="/paginated" element={<PaginatedQueries />} />
         <Route

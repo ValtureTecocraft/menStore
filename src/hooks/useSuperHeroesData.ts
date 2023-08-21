@@ -1,12 +1,18 @@
 import axios from "axios";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 interface Superhero {
   name: string;
+  id: number;
+  alterEgo: string;
 }
 
 const fetchHeroes = () => {
   return axios.get("http://localhost:4000/superheroes");
+};
+
+const addSuperHero = (hero: any) => {
+  return axios.post("http://localhost:4000/superheroes", hero);
 };
 
 export const useSuperHeroesData = (onSuccess: any, onError: any) => {
@@ -20,7 +26,7 @@ export const useSuperHeroesData = (onSuccess: any, onError: any) => {
     // refetchInterval: 2000, // Default false  > paused on Window out of Focus
     // refetchIntervalInBackground: true, // Default false
 
-    enabled: false, //fetching data with event (on page load) & Default true
+    enabled: true, //fetching data with event (on page load) & Default true
 
     onSuccess,
     onError,
@@ -30,4 +36,8 @@ export const useSuperHeroesData = (onSuccess: any, onError: any) => {
     //   return { data: superHeroesName };
     // },
   });
+};
+
+export const useAddSuperHero = () => {
+  return useMutation(addSuperHero);
 };
