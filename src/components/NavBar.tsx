@@ -15,10 +15,13 @@ const NavBar: React.FC = () => {
           <Link to="/rq-super-heroes">RQ Super Heroes</Link>
         </li>
         <li className="text-blue-500">
-          <Link to="/parallel-query">Parallel Query</Link>
+          <Link to="/parallel-query">Parallel</Link>
         </li>
         <li className="text-blue-500">
-          <Link to="/dynamic-parallel-query">Dynamic Parallel Query</Link>
+          <Link to="/dynamic-parallel-query">Dynamic Parallel</Link>
+        </li>
+        <li className="text-blue-500">
+          <Link to="/paginated">Paginated</Link>
         </li>
       </ul>
     </nav>
