@@ -14,6 +14,12 @@ const NavBar: React.FC = () => {
         <li className="text-blue-500">
           <Link to="/rq-super-heroes">RQ Super Heroes</Link>
         </li>
+        <li className="text-blue-500">
+          <Link to="/parallel-query">Parallel Query</Link>
+        </li>
+        <li className="text-blue-500">
+          <Link to="/dynamic-parallel-query">Dynamic Parallel Query</Link>
+        </li>
       </ul>
     </nav>
   );
