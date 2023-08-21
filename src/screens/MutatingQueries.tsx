@@ -25,11 +25,13 @@ export const MutatingQueries = () => {
     e.preventDefault();
     console.log({ name, alterEgo });
     const hero = { name, alterEgo };
+    setName("");
+    setAlterEgo("");
     mutate(hero);
   };
 
   return (
-    <div className="w-full min-h-screen h-full pt-16 gap-5 flex flex-col items-center bg-gray-200">
+    <div className="w-full min-h-screen h-full pt-16 pb-8 gap-5 flex flex-col items-center bg-gray-200">
       <h2 className="text-3xl font-semibold">Add Superheroes Page</h2>
 
       <form onSubmit={handleSubmit} className="flex flex-col items-center">

@@ -24,6 +24,16 @@
       "name": "Iron Man",
       "alterEgo": "RDJ",
       "id": 5
+    },
+    {
+      "name": "Thor",
+      "alterEgo": "Chris Hemsworth",
+      "id": 6
+    },
+    {
+      "name": "Smit",
+      "alterEgo": "Smit Valture",
+      "id": 7
     }
   ],
   "friends": [

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 interface Superhero {
   name: string;
@@ -39,5 +39,10 @@ export const useSuperHeroesData = (onSuccess: any, onError: any) => {
 };
 
 export const useAddSuperHero = () => {
-  return useMutation(addSuperHero);
+  const queryClient = useQueryClient();
+  return useMutation(addSuperHero, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("super-heroes");
+    },
+  });
 };
