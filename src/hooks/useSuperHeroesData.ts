@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { request } from "../utils/axios-utils";
 
 interface Superhero {
   name: string;
@@ -8,11 +8,13 @@ interface Superhero {
 }
 
 const fetchHeroes = () => {
-  return axios.get("http://localhost:4000/superheroes");
+  // return axios.get("http://localhost:4000/superheroes");
+  return request({ url: "/superheroes" }); //axios interceptors
 };
 
 const addSuperHero = (hero: any) => {
-  return axios.post("http://localhost:4000/superheroes", hero);
+  // return axios.post("http://localhost:4000/superheroes", hero);
+  return request({ url: "/superheroes", method: "post", data: hero }); //axios interceptors
 };
 
 export const useSuperHeroesData = (onSuccess: any, onError: any) => {
