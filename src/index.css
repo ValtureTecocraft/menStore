@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.navLink a.active {
+  @apply font-semibold;
+}
+
 .error {
   @apply text-red-700 text-sm font-medium;
 }
