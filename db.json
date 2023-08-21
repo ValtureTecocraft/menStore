@@ -49,6 +49,21 @@
       "name": "Catwomen",
       "alterEgo": "Salina Kyle",
       "id": 10
+    },
+    {
+      "name": "Aquaman",
+      "alterEgo": "Arthur Curry",
+      "id": 11
+    },
+    {
+      "name": "The Flash 2",
+      "alterEgo": "Barry Allen 2",
+      "id": 12
+    },
+    {
+      "name": "Iron Man 2",
+      "alterEgo": "RDJ 2",
+      "id": 13
     }
   ],
   "friends": [

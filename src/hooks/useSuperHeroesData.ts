@@ -49,18 +49,56 @@ export const useSuperHeroesData = (onSuccess: any, onError: any) => {
 // };
 
 //   this does not genrates new network request with mutate response
+// export const useAddSuperHero = () => {
+//   const queryClient = useQueryClient();
+//   return useMutation(addSuperHero, {
+//     onSuccess: (data) => {
+//       // queryClient.invalidateQueries("super-heroes");
+//       queryClient.setQueryData("super-heroes", (oldQueryData: any) => {
+//         // return [...oldQueryData.data, data.data];
+//         return {
+//           ...oldQueryData,
+//           data: [...oldQueryData.data, data.data],
+//         };
+//       });
+//     },
+//   });
+// };
+
+//    optimistic Updates
 export const useAddSuperHero = () => {
   const queryClient = useQueryClient();
   return useMutation(addSuperHero, {
-    onSuccess: (data) => {
-      // queryClient.invalidateQueries("super-heroes");
+    // onSuccess: (data) => {
+    //   // queryClient.invalidateQueries("super-heroes");
+    //   queryClient.setQueryData("super-heroes", (oldQueryData: any) => {
+    //     // return [...oldQueryData.data, data.data];
+    //     return {
+    //       ...oldQueryData,
+    //       data: [...oldQueryData.data, data.data],
+    //     };
+    //   });
+    // },
+    onMutate: async (newHero) => {
+      await queryClient.cancelQueries("super-heroes");
+      const previousHeroData = queryClient.getQueryData("super-heroes");
       queryClient.setQueryData("super-heroes", (oldQueryData: any) => {
-        // return [...oldQueryData.data, data.data];
         return {
           ...oldQueryData,
-          data: [...oldQueryData.data, data.data],
+          data: [
+            ...oldQueryData.data,
+            { id: oldQueryData?.data?.length + 1, ...newHero },
+          ],
         };
       });
+      return { previousHeroData };
     },
+    onError: (_err, _newTodo, context) => {
+      queryClient.setQueryData("super-heroes", context?.previousHeroData);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries("super-heroes");
+    },
+    /**Optimistic Update End */
   });
 };
