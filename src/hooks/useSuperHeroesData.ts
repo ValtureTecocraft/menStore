@@ -38,11 +38,29 @@ export const useSuperHeroesData = (onSuccess: any, onError: any) => {
   });
 };
 
+//   this genrates new network request
+// export const useAddSuperHero = () => {
+//   const queryClient = useQueryClient();
+//   return useMutation(addSuperHero, {
+//     onSuccess: () => {
+//       queryClient.invalidateQueries("super-heroes");
+//     },
+//   });
+// };
+
+//   this does not genrates new network request with mutate response
 export const useAddSuperHero = () => {
   const queryClient = useQueryClient();
   return useMutation(addSuperHero, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("super-heroes");
+    onSuccess: (data) => {
+      // queryClient.invalidateQueries("super-heroes");
+      queryClient.setQueryData("super-heroes", (oldQueryData: any) => {
+        // return [...oldQueryData.data, data.data];
+        return {
+          ...oldQueryData,
+          data: [...oldQueryData.data, data.data],
+        };
+      });
     },
   });
 };

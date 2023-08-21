@@ -34,6 +34,21 @@
       "name": "Smit",
       "alterEgo": "Smit Valture",
       "id": 7
+    },
+    {
+      "name": "Green Arrow",
+      "alterEgo": "Olliver Queen",
+      "id": 8
+    },
+    {
+      "name": "Witch",
+      "alterEgo": "Scarlet Witch",
+      "id": 9
+    },
+    {
+      "name": "Catwomen",
+      "alterEgo": "Salina Kyle",
+      "id": 10
     }
   ],
   "friends": [
