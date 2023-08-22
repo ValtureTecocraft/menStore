@@ -4,6 +4,7 @@ import { UserData } from "../../UserData";
 export interface IUser {
   id: number;
   name: string;
+  userName: string;
 }
 
 interface UserState {
@@ -17,7 +18,22 @@ const initialState: UserState = {
 export const userSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {},
+  reducers: {
+    addUser: (state, action) => {
+      state.value.push(action.payload);
+    },
+    deleteUser: (state, action) => {
+      state.value = state.value.filter((user) => user.id !== action.payload.id);
+    },
+    updateUserName: (state, action) => {
+      state.value.map((user) => {
+        if (user.id === action.payload.id) {
+          user.userName = action.payload.newUserName;
+        }
+      });
+    },
+  },
 });
 
+export const { addUser, deleteUser, updateUserName } = userSlice.actions;
 export default userSlice.reducer;
