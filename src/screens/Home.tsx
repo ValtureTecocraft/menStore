@@ -56,7 +56,7 @@ const Home: React.FC = () => {
           return (
             <div
               key={user.id}
-              className="w-[600px] py-2 flex flex-col justify-center items-center border rounded-lg shadow-md drop-shadow-md font-bold"
+              className="w-[600px] py-2 flex flex-col justify-center items-center border rounded-lg hover:shadow-md hover:drop-shadow-md font-bold"
             >
               <h1>
                 <span className="font-medium">Name: </span>
@@ -79,14 +79,14 @@ const Home: React.FC = () => {
                       updateUserName({ id: user.id, newUserName: newUserName })
                     )
                   }
-                  className="btnGreen h-8"
+                  className="btnOrange h-8"
                   type="button"
                 >
                   Update
                 </button>
                 <button
                   onClick={() => dispatch(deleteUser({ id: user.id }))}
-                  className="btnGreen h-8"
+                  className="btnRed h-8"
                   type="button"
                 >
                   Delete

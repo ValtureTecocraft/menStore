@@ -13,3 +13,11 @@
 .btnGreen {
   @apply px-3 py-1 duration-300 ease-in uppercase font-medium bg-green-500 focus:bg-green-600 disabled:bg-gray-400 text-white rounded-md hover:ring-1 disabled:ring-0 ring-offset-2 ring-green-500;
 }
+
+.btnRed {
+  @apply px-3 py-1 duration-300 ease-in uppercase font-medium bg-red-500 focus:bg-red-600 disabled:bg-gray-400 text-white rounded-md hover:ring-1 disabled:ring-0 ring-offset-2 ring-red-500;
+}
+
+.btnOrange {
+  @apply px-3 py-1 duration-300 ease-in uppercase font-medium bg-orange-500 focus:bg-orange-600 disabled:bg-gray-400 text-white rounded-md hover:ring-1 disabled:ring-0 ring-offset-2 ring-orange-500;
+}
