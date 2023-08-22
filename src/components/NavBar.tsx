@@ -4,9 +4,12 @@ import { NavLink } from "react-router-dom";
 const NavBar: React.FC = () => {
   return (
     <nav className="fixed navLink w-full flex justify-center items-center bg-gray-300 shadow-md drop-shadow-md">
-      <ul className="max-w-7xl px-3 py-2 w-full gap-6 flex items-center justify-between">
+      <ul className="max-w-7xl px-3 py-2 w-full gap-6 flex items-center">
         <li className="text-blue-500">
-          <NavLink to="/">Home</NavLink>
+          <NavLink to="/">CRUD</NavLink>
+        </li>
+        <li className="text-blue-500">
+          <NavLink to="/crud-api">CRUD-WITH-API</NavLink>
         </li>
       </ul>
     </nav>

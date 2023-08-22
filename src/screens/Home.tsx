@@ -74,11 +74,17 @@ const Home: React.FC = () => {
                   variant="standard"
                 />
                 <button
-                  onClick={() =>
-                    dispatch(
-                      updateUserName({ id: user.id, newUserName: newUserName })
-                    )
-                  }
+                  onClick={() => {
+                    if (newUserName !== "") {
+                      dispatch(
+                        updateUserName({
+                          id: user.id,
+                          newUserName: newUserName,
+                        })
+                      );
+                    }
+                    setNewUserName("");
+                  }}
                   className="btnOrange h-8"
                   type="button"
                 >

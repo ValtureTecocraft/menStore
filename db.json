@@ -1,0 +1,69 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Batman",
+      "username": "BruceWayne"
+    },
+    {
+      "id": 2,
+      "name": "Superman",
+      "username": "ClarkKent"
+    },
+    {
+      "id": 3,
+      "name": "WonderWoman",
+      "username": "PrincessDiana"
+    },
+    {
+      "name": "TheFlash",
+      "username": "BarryAllen",
+      "id": 4
+    },
+    {
+      "name": "IronMan",
+      "username": "RDJ",
+      "id": 5
+    },
+    {
+      "name": "Thor",
+      "username": "ChrisHemsworth",
+      "id": 6
+    },
+    {
+      "name": "Smit",
+      "username": "SmitValture",
+      "id": 7
+    },
+    {
+      "name": "GreenArrow",
+      "username": "OlliverQueen",
+      "id": 8
+    },
+    {
+      "name": "Witch",
+      "username": "ScarletWitch",
+      "id": 9
+    },
+    {
+      "name": "Catwomen",
+      "username": "SalinaKyle",
+      "id": 10
+    },
+    {
+      "name": "Aquaman",
+      "username": "ArthurCurry",
+      "id": 11
+    },
+    {
+      "name": "TheFlash2",
+      "username": "BarryAllen2",
+      "id": 12
+    },
+    {
+      "name": "IronMan2",
+      "username": "RDJ2",
+      "id": 13
+    }
+  ]
+}
