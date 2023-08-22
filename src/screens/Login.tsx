@@ -57,7 +57,7 @@ const Login: React.FC = () => {
       <div className="z-10 backdrop-blur w-full h-screen flex justify-center items-center">
         <Link
           to={"/"}
-          className="fixed z-30 top-5 left-5 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent cursor-pointer text-3xl font-bold select-none"
+          className="fixed z-30 top-5 left-5 bg-gradient-to-r from-gray-50 to-gray-400 hover:to-gray-50 bg-clip-text text-transparent cursor-pointer text-3xl font-bold select-none"
         >
           Men's Shop
         </Link>
@@ -65,8 +65,7 @@ const Login: React.FC = () => {
           onSubmit={handleSubmit}
           className="w-80 h-fit shadow-xl bg-white/10 border border-white/10 rounded-lg px-6 py-5 gap-4 flex flex-col"
         >
-          <div>
-          </div>
+          <div></div>
           <h2 className="text-3xl text-center font-semibold">Login</h2>
           <div className="relative mt-4">
             <label
@@ -88,7 +87,9 @@ const Login: React.FC = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            {errors.email && touched.email ? <p>{errors.email}</p> : null}
+            {errors.email && touched.email ? (
+              <p className="errorMsg">{errors.email}</p>
+            ) : null}
           </div>
           <div className="relative mt-4">
             <label
@@ -110,6 +111,9 @@ const Login: React.FC = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
+            {errors.password && touched.password ? (
+              <p className="errorMsg">{errors.password}</p>
+            ) : null}
           </div>
 
           <button
