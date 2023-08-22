@@ -68,7 +68,6 @@ const Home: React.FC = () => {
               </h1>
               <div className="flex justify-center items-end gap-3">
                 <TextField
-                  value={newUserName}
                   onChange={(e) => setNewUserName(e.target.value)}
                   id="standard-basic"
                   label="Update Username ..."
