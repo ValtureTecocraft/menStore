@@ -17,7 +17,7 @@ const Home: React.FC = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className="w-full min-h-screen h-full pt-16 gap-5 flex flex-col items-center bg-gray-50">
+    <div className="w-full min-h-screen h-full pt-16 pb-8 gap-5 flex flex-col items-center bg-gray-50">
       <div className="w-[600px] h-12 space-x-5 flex justify-center">
         <TextField
           value={name}
