@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import loginBg from "../assets/login-bg.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -24,17 +24,19 @@ const loginSchema = Yup.object({
 });
 
 /*  ************ RRTURN ************** */
-export const Auth = () => {
+export const SignIn: React.FC = () => {
   const [state, setState] = useState<IState>({
     IEmail: false,
     IPassword: false,
     isLogedIn: false,
   });
+  const navigate = useNavigate();
 
   const signIn = async (email: string, password: string) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       setState({ ...state, isLogedIn: true });
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -44,6 +46,7 @@ export const Auth = () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       setState({ ...state, isLogedIn: true });
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -66,7 +69,7 @@ export const Auth = () => {
     }
   };
 
-  console.log(auth?.currentUser?.email);
+  // console.log(auth?.currentUser?.email);
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -120,7 +123,7 @@ export const Auth = () => {
           <h2 className="text-3xl text-center font-semibold uppercase">
             Login
           </h2>
-          <div className="relative mt-4">
+          <div className="relative mt-8">
             <label
               className={`absolute duration-300 ${
                 state.IEmail
