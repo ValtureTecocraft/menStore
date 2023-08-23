@@ -6,6 +6,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth";
 import { useFormik } from "formik";
 import { loginSchema } from "../schemas";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { fetchUsers, getUser } from "../store/features/authSlice";
 
 interface IState {
   IEmail: boolean;
@@ -21,6 +24,7 @@ const Login: React.FC = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const RedirectPath = location.state?.path || "/";
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
@@ -30,16 +34,23 @@ const Login: React.FC = () => {
         password: "",
       },
       validationSchema: loginSchema,
-      onSubmit: (values, actions) => {
+      onSubmit: async (values, actions) => {
         console.log(values);
-        if (values.email && values.password) {
+        debugger;
+        const user = await dispatch(getUser(values));
+        console.log(user);
+        debugger;
+        if (user.payload.length !== 0) {
+          console.log("you are logged in.");
           auth.login(values.email);
+          localStorage.setItem("user", user.payload[0].email);
           navigate(RedirectPath, { replace: true });
+        } else {
+          console.log("user.error.message");
         }
         actions.resetForm();
       },
     });
-  // console.log(errors);
 
   useEffect(() => {
     setState((prevState) => ({
@@ -49,10 +60,23 @@ const Login: React.FC = () => {
     }));
   }, [values.email, values.password]);
 
+  useEffect(() => {
+    const getData = async () => {
+      const data = await dispatch(fetchUsers());
+      // console.log(data.payload);
+      return data.payload;
+    };
+    getData();
+  }, []);
+
   return (
     <>
-      <div className="fixed z-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-screen overflow-hidden">
-        <img className="w-screen h-screen" src={loginBg} alt="bg img Login" />
+      <div className="fixed z-0 top-1/2 left-1/2 bg-[#676675] -translate-x-1/2 -translate-y-1/2 w-full h-screen overflow-hidden flex justify-center items-center">
+        <img
+          className="min-w-[1120px] w-screen h-screen"
+          src={loginBg}
+          alt="bg img Login"
+        />
       </div>
       <div className="z-10 backdrop-blur w-full h-screen flex justify-center items-center">
         <Link
@@ -65,8 +89,7 @@ const Login: React.FC = () => {
           onSubmit={handleSubmit}
           className="w-80 h-fit shadow-xl bg-white/10 border border-white/10 rounded-lg px-6 py-5 gap-4 flex flex-col"
         >
-          <div>
-          </div>
+          <div></div>
           <h2 className="text-3xl text-center font-semibold">Login</h2>
           <div className="relative mt-4">
             <label
@@ -88,9 +111,13 @@ const Login: React.FC = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            {errors.email && touched.email ? <p>{errors.email}</p> : null}
+            <div className="h-5">
+              {errors.email && touched.email ? (
+                <p className="errorMsg pl-1">{errors.email}</p>
+              ) : null}
+            </div>
           </div>
-          <div className="relative mt-4">
+          <div className="relative">
             <label
               className={`absolute duration-300 ${
                 state.IPassword
@@ -110,6 +137,11 @@ const Login: React.FC = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
+            <div className="h-5">
+              {errors.password && touched.password ? (
+                <p className="errorMsg pl-1">{errors.password}</p>
+              ) : null}
+            </div>
           </div>
 
           <button

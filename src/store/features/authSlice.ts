@@ -8,23 +8,40 @@ interface User {
 
 interface AuthState {
   user: User | null;
+  loading: boolean;
+  isAuthenticated: boolean;
+  error: null | string;
 }
 
 const initialState: AuthState = {
   user: null,
+  loading: false,
+  isAuthenticated: false,
+  error: null,
 };
 
-const userAPI = "http://localhost:4000/users";
+const usersAPI = "http://localhost:4000/users";
 
-const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
-  const data = await axios.get(userAPI);
-  return data.data;
-});
+let userData;
 
-const getUser = createAsyncThunk(
+export const fetchUsers: any = createAsyncThunk(
+  "users/fetchUsers",
+  async () => {
+    const data = await axios.get(usersAPI);
+    userData = await data.data;
+    return data.data;
+  }
+);
+
+export const getUser: any = createAsyncThunk(
   "user/getUser",
-  async ({ username }: { username: string }) => {
-    const data = await axios.get(userAPI + `/username`);
+  async (data: any) => {
+    debugger;
+    const user = await axios.get(
+      `http://localhost:4000/users/?email=${data.email}&password=${data.password}`
+    );
+    debugger;
+    return user.data;
   }
 );
 
@@ -38,6 +55,28 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchUsers.pending, (state) => {
+      state.loading = true;
+      state.isAuthenticated = false;
+    });
+    builder.addCase(fetchUsers.fulfilled, (state, action) => {
+      state.user = action.payload; // Update the user
+      state.loading = false;
+      state.isAuthenticated = true;
+    });
+    builder.addCase(fetchUsers.rejected, (state, action) => {
+      state.loading = false;
+      state.isAuthenticated = false;
+      state.error = action.error.message || null;
+    });
+    builder.addCase(getUser.fulfilled, (state, action) => {
+      state.user = action.payload; // Update the user
+      state.loading = false;
+      state.user = action;
+      state.isAuthenticated = true;
+    });
   },
 });
 
