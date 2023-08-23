@@ -54,10 +54,10 @@ const Home: React.FC = () => {
   //   });
   // }, [list]);
 
-  // const toggleTheme = () => {
-  //   setIsDarkMode((prevMode) => !prevMode);
-  //   document.documentElement.classList.toggle("dark");
-  // };
+  const toggleTheme = () => {
+    setIsDarkMode((prevMode) => !prevMode);
+    document.documentElement.classList.toggle("dark");
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -133,7 +133,7 @@ const Home: React.FC = () => {
           {
             <img
               className="cursor-pointer"
-              // onClick={toggleTheme}
+              onClick={toggleTheme}
               src={isDarkMode ? icon_sun : icon_moon}
               alt="theme icon"
             />
