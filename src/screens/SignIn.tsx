@@ -75,7 +75,7 @@ export const SignIn: React.FC = () => {
         alert: {
           open: true,
           type: "error",
-          message: "Please check your credencials.",
+          message: "Please check your credentials.",
         },
       }));
     }
