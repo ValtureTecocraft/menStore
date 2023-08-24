@@ -119,14 +119,17 @@ const Home: React.FC = () => {
     }
   };
 
-  const updatedActive = async (id: any) => {
+  const updatedActive = async (id: any, active: boolean) => {
+    console.log("id", id);
+
+    setUpdatedIsActive(active);
     setLoading(true);
     try {
       if (currentUser) {
         const userId = currentUser.uid;
         const userTodoListRef = collection(db, "users", userId, "todos");
         const listDoc = doc(userTodoListRef, id);
-        await updateDoc(listDoc, { active: updatedIsActive });
+        await updateDoc(listDoc, { active: active });
         getTodoList();
       }
       setLoading(false);
@@ -266,8 +269,7 @@ const Home: React.FC = () => {
                   onClick={() => deleteTodo(item.id)}
                   checked={!item.active}
                   onClickCheck={() => {
-                    setUpdatedIsActive(!item.active);
-                    updatedActive(item.id);
+                    updatedActive(item.id, !item.active);
                   }}
                 />
               </div>
