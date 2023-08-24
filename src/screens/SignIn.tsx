@@ -45,10 +45,7 @@ export const SignIn: React.FC = () => {
   });
   const navigate = useNavigate();
 
-  const handleAlertClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
+  const handleAlertClose = (reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
