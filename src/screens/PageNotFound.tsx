@@ -1,5 +1,9 @@
 import React from "react";
 
 export const PageNotFound: React.FC = () => {
-  return <div className="mx-auto my-auto">PageNotFound</div>;
+  return (
+    <div className="w-full h-screen flex justify-center items-center">
+      <p className="">PageNotFound</p>
+    </div>
+  );
 };
