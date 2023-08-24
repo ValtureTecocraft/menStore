@@ -55,12 +55,18 @@ const Home: React.FC = () => {
         }));
 
         setList(filteredData);
-        setLoading(false);
       }
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (!auth?.currentUser) {
+      navigate("/signin");
+    }
+  }, [auth?.currentUser]);
 
   useEffect(() => {
     const prefersDarkMode = window.matchMedia(

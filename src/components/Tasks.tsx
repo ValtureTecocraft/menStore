@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import icon_check from "../assets/images/icon-check.svg";
 import icon_cross from "../assets/images/icon-cross.svg";
 

@@ -11,12 +11,18 @@ import {
   signOut,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import CustomizedSnackbars from "../components/Alert";
 
 interface IState {
   IEmail: boolean;
   IPassword: boolean;
   isLogedIn: boolean;
   loading: boolean;
+  alert: {
+    open: boolean;
+    type: "success" | "error" | undefined;
+    message: string;
+  };
 }
 
 const loginSchema = Yup.object({
@@ -31,8 +37,31 @@ export const SignIn: React.FC = () => {
     IPassword: false,
     isLogedIn: false,
     loading: false,
+    alert: {
+      open: false,
+      type: undefined,
+      message: "",
+    },
   });
   const navigate = useNavigate();
+
+  const handleAlertClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setState((prevState) => ({
+      ...prevState,
+      // loading: false,
+      alert: {
+        open: false,
+        type: undefined,
+        message: "",
+      },
+    }));
+  };
 
   const signIn = async (email: string, password: string) => {
     setState({ ...state, loading: true });
@@ -43,6 +72,15 @@ export const SignIn: React.FC = () => {
       setState({ ...state, loading: false });
     } catch (error) {
       console.error(error);
+      setState((prevState) => ({
+        ...prevState,
+        // loading: false,
+        alert: {
+          open: true,
+          type: "error",
+          message: "Please check your credencials.",
+        },
+      }));
     }
   };
 
@@ -55,6 +93,15 @@ export const SignIn: React.FC = () => {
       setState({ ...state, loading: false });
     } catch (error) {
       console.error(error);
+      setState((prevState) => ({
+        ...prevState,
+        // loading: false,
+        alert: {
+          open: true,
+          type: "error",
+          message: "User already exists.",
+        },
+      }));
     }
   };
 
@@ -92,6 +139,8 @@ export const SignIn: React.FC = () => {
       validationSchema: loginSchema,
       onSubmit: async (values, actions) => {
         // signIn(values.email, values.password);
+        console.log(values);
+
         actions.resetForm();
       },
     });
@@ -114,6 +163,12 @@ export const SignIn: React.FC = () => {
 
   return (
     <>
+      <CustomizedSnackbars
+        typeOfAlert={state.alert.type}
+        message={state.alert.message}
+        open={state.alert.message !== ""}
+        handleClose={handleAlertClose}
+      />
       <div className="fixed z-0 top-1/2 left-1/2 scale-110 bg-[#676675] -translate-x-1/2 -translate-y-1/2 w-full h-screen overflow-hidden flex justify-center items-center">
         <img
           className="min-w-[1120px] w-screen h-screen"
