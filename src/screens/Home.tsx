@@ -34,7 +34,6 @@ const Home: React.FC = () => {
   const [list, setList] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(true);
-  const [updatedIsActive, setUpdatedIsActive] = useState<boolean>(true);
 
   const navigate = useNavigate();
 
@@ -121,8 +120,6 @@ const Home: React.FC = () => {
 
   const updatedActive = async (id: any, active: boolean) => {
     console.log("id", id);
-
-    setUpdatedIsActive(active);
     setLoading(true);
     try {
       if (currentUser) {
