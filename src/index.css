@@ -24,3 +24,11 @@
 .btnRed {
   @apply uppercase bg-red-500/90 hover:bg-red-500 rounded pt-2 py-1 px-3 text-white;
 }
+
+.btnGreen {
+  @apply uppercase bg-green-500/90 hover:bg-green-500 rounded pt-2 py-1 px-3 text-white;
+}
+
+.btnBlack {
+  @apply uppercase bg-black/90 hover:bg-black rounded pt-2 py-1 px-3 text-white;
+}

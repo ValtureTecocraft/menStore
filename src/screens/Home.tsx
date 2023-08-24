@@ -63,12 +63,6 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!auth?.currentUser) {
-      navigate("/signin");
-    }
-  }, [auth?.currentUser]);
-
-  useEffect(() => {
     const prefersDarkMode = window.matchMedia(
       "(prefers-color-scheme: dark)"
     ).matches;
@@ -191,9 +185,16 @@ const Home: React.FC = () => {
         />
       </div>
 
-      <button onClick={logOut} className="btnRed fixed top-5 right-5 ">
-        Logout
-      </button>
+      {auth?.currentUser ? (
+        <button onClick={logOut} className="btnRed fixed top-5 right-5 ">
+          Logout
+        </button>
+      ) : (
+        <button onClick={logOut} className="btnBlack fixed top-5 right-5 ">
+          Login
+        </button>
+      )}
+
       {loading && <Loading />}
       <div className="absolute top-[70px] max-h-[calc(100%-250px)] px-6 pt-10 md:px-0 md:pt-0 md:max-w-[650px] w-full h-full gap-6 flex flex-col items-center">
         <div className="w-full flex justify-between items-center">
