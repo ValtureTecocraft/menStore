@@ -16,6 +16,7 @@ interface IState {
   IEmail: boolean;
   IPassword: boolean;
   isLogedIn: boolean;
+  loading: boolean;
 }
 
 const loginSchema = Yup.object({
@@ -29,41 +30,52 @@ export const SignIn: React.FC = () => {
     IEmail: false,
     IPassword: false,
     isLogedIn: false,
+    loading: false,
   });
   const navigate = useNavigate();
 
   const signIn = async (email: string, password: string) => {
+    setState({ ...state, loading: true });
     try {
       await signInWithEmailAndPassword(auth, email, password);
       setState({ ...state, isLogedIn: true });
       navigate("/");
+      setState({ ...state, loading: false });
     } catch (error) {
       console.error(error);
     }
   };
 
   const signUp = async (email: string, password: string) => {
+    setState({ ...state, loading: true });
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       setState({ ...state, isLogedIn: true });
       navigate("/");
+      setState({ ...state, loading: false });
     } catch (error) {
       console.error(error);
     }
   };
 
   const signinWithGoogle = async () => {
+    setState({ ...state, loading: true });
     try {
       await signInWithPopup(auth, googleProvider);
+      setState({ ...state, isLogedIn: true });
+      navigate("/");
+      setState({ ...state, loading: false });
     } catch (error) {
       console.error(error);
     }
   };
 
   const logOut = async () => {
+    setState({ ...state, loading: true });
     try {
       await signOut(auth);
       setState({ ...state, isLogedIn: false });
+      setState({ ...state, loading: false });
     } catch (error) {
       console.error(error);
     }

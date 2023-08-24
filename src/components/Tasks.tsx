@@ -1,39 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import icon_check from "../assets/images/icon-check.svg";
 import icon_cross from "../assets/images/icon-cross.svg";
 
 const Tasks = ({
   item,
   isDarkMode,
-}: // onDelete
-{
+  onClick,
+  checked,
+  onClickCheck,
+}: {
   item: string;
   isDarkMode: any;
+  onClick: any;
+  checked: boolean;
+  onClickCheck: any;
 }) => {
-  const [toggle, setToggle] = useState(false);
+  // const [checked, setchecked] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  useEffect(() => {
-    const storedToggle = localStorage.getItem(`toggle_${item}`);
-    if (storedToggle) {
-      setToggle(JSON.parse(storedToggle));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedchecked = localStorage.getItem(`checked_${item}`);
+  //   if (storedchecked) {
+  //     setchecked(JSON.parse(storedchecked));
+  //   }
+  // }, []);
 
-  const handleToggle = () => {
-    const updatedToggle = !toggle;
-    setToggle(updatedToggle);
-    localStorage.setItem(`toggle_${item}`, JSON.stringify(updatedToggle));
-  };
-
-  //   const handleDelete = () => {
-  //     // onDelete(
-  //     //     // item
-  //     //     );
-  //     // localStorage.removeItem(`toggle_${
-  //     //     // item
-  //     // }`);
-  //   };
+  // const handlechecked = () => {
+  //   setchecked(!checked);
+  //   handleTaskClick();
+  // };
 
   return (
     <div
@@ -46,34 +41,28 @@ const Tasks = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        onClick={handleToggle}
+        onClick={onClickCheck}
         className={`w-8 h-[26px] md:h-8 cursor-pointer flex justify-center items-center rounded-full ${
-          toggle && "bg-gradient-to-br"
+          checked && "bg-gradient-to-br"
         } from-[#7bbbf9] to-[#8064c6] border-2 ${
           isDarkMode ? "border-[#353648]" : "border-gray-300"
         }`}
       >
-        {toggle && <img src={icon_check} alt="icon check" />}
+        {checked && <img src={icon_check} alt="icon check" />}
       </div>
       <p
-        className={`ml-2 pt-2 w-5/6 ${toggle && "line-through text-gray-500"}`}
+        className={`ml-2 pt-2 w-5/6 ${checked && "line-through text-gray-500"}`}
       >
         {item}
       </p>
       {isHovered && (
         <div
           className={`hidden lg:block z-10 cursor-pointer transition-opacity duration-500`}
-          //   onClick={handleDelete}
+          onClick={onClick}
         >
           <img src={icon_cross} alt="cross icon" />
         </div>
       )}
-      <div
-        className={`block lg:hidden z-10 cursor-pointer transition-opacity duration-500`}
-        // onClick={handleDelete}
-      >
-        <img src={icon_cross} alt="cross icon" />
-      </div>
     </div>
   );
 };

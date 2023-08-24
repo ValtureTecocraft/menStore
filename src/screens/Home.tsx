@@ -7,16 +7,60 @@ import icon_sun from "../assets/images/icon-sun.svg";
 import icon_moon from "../assets/images/icon-moon.svg";
 import icon_check from "../assets/images/icon-check.svg";
 import Tasks from "../components/Tasks";
-import { db } from "../config/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { signOut } from "firebase/auth";
+import { db, auth } from "../config/firebase";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  doc,
+  deleteDoc,
+  updateDoc,
+} from "firebase/firestore";
+import Loading from "../components/Loading";
+import { useNavigate } from "react-router-dom";
+
+interface IList {
+  id: string;
+  task: string;
+  active: boolean;
+}
 
 const Home: React.FC = () => {
+  // console.log(auth?.currentUser?.email);
+
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [toggle, setToggle] = useState({});
   const [input, setInput] = useState("");
   const [list, setList] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isActive, setIsActive] = useState<boolean>(true);
+  const [updatedIsActive, setUpdatedIsActive] = useState<boolean>(true);
 
-  const todoListRef = collection(db, "todos");
+  const navigate = useNavigate();
+
+  // const todoListRef = collection(db, "todos");
+  const currentUser = auth?.currentUser;
+
+  const getTodoList = async () => {
+    setLoading(true);
+    try {
+      if (currentUser) {
+        const userId = currentUser.uid;
+        const userTodoListRef = collection(db, "users", userId, "todos");
+
+        const data = await getDocs(userTodoListRef);
+        const filteredData = data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+
+        setList(filteredData);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     const prefersDarkMode = window.matchMedia(
@@ -25,34 +69,71 @@ const Home: React.FC = () => {
     setIsDarkMode(prefersDarkMode);
     document.documentElement.classList.toggle("dark", prefersDarkMode);
 
-    const getTodoList = async () => {
-      try {
-        const data = await getDocs(todoListRef);
-        const filteredData = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-        // console.log(filteredData);
-        setList(filteredData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     getTodoList();
   }, []);
 
-  console.log(list);
-  // useEffect(() => {
-  //   list.forEach((item) => {
-  //     const storedToggle = localStorage.getItem(`toggle_${item}`);
-  //     if (storedToggle) {
-  //       setToggle((prevToggle) => ({
-  //         ...prevToggle,
-  //         [item]: JSON.parse(storedToggle),
-  //       }));
-  //     }
-  //   });
-  // }, [list]);
+  const logOut = async () => {
+    setLoading(true);
+    try {
+      await signOut(auth);
+      navigate("/signin");
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const addTodo = async () => {
+    setLoading(true);
+    try {
+      // Get the currently authenticated user
+      // const currentUser = auth.currentUser;
+
+      if (currentUser) {
+        const userId = currentUser.uid;
+        const userTodoListRef = collection(db, "users", userId, "todos");
+
+        await addDoc(userTodoListRef, { task: input, active: isActive });
+        getTodoList();
+      }
+
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deleteTodo = async (id: any) => {
+    setLoading(true);
+    try {
+      if (currentUser) {
+        const userId = currentUser.uid;
+        const userTodoListRef = collection(db, "users", userId, "todos");
+        const listDoc = doc(userTodoListRef, id);
+        await deleteDoc(listDoc);
+        getTodoList();
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const updatedActive = async (id: any) => {
+    setLoading(true);
+    try {
+      if (currentUser) {
+        const userId = currentUser.uid;
+        const userTodoListRef = collection(db, "users", userId, "todos");
+        const listDoc = doc(userTodoListRef, id);
+        await updateDoc(listDoc, { active: updatedIsActive });
+        getTodoList();
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => !prevMode);
@@ -61,20 +142,12 @@ const Home: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // if (input) {
-    //   const updatedList = [...list, input];
-    //   setList(updatedList);
-    //   localStorage.setItem("taskList", JSON.stringify(updatedList)); // Convert to JSON string
-    //   setInput("");
-    // }
+    if (input) {
+      addTodo();
+      setInput("");
+      setIsActive(true);
+    }
   };
-
-  // const handleDelete = (item) => {
-  //   const updatedList = list.filter((task) => task !== item);
-  //   setList(updatedList);
-  //   localStorage.setItem("taskList", JSON.stringify(updatedList));
-  //   localStorage.removeItem(`toggle_${item}`);
-  // };
 
   // const handleDragStart = (e, index) => {
   //   e.dataTransfer.setData("text/plain", index);
@@ -91,15 +164,6 @@ const Home: React.FC = () => {
   //   updatedList.splice(index, 0, removedItem);
   //   setList(updatedList);
   //   localStorage.setItem("taskList", JSON.stringify(updatedList));
-  // };
-
-  // const handleToggle = (item) => {
-  //   const updatedToggle = !toggle[item];
-  //   setToggle((prevToggle) => ({
-  //     ...prevToggle,
-  //     [item]: updatedToggle,
-  //   }));
-  //   localStorage.setItem(`toggle_${item}`, JSON.stringify(updatedToggle));
   // };
 
   return (
@@ -121,6 +185,10 @@ const Home: React.FC = () => {
         />
       </div>
 
+      <button onClick={logOut} className="btnRed fixed top-5 right-5 ">
+        Logout
+      </button>
+      {loading && <Loading />}
       <div className="absolute top-[70px] max-h-[calc(100%-250px)] px-6 pt-10 md:px-0 md:pt-0 md:max-w-[650px] w-full h-full gap-6 flex flex-col items-center">
         <div className="w-full flex justify-between items-center">
           <h1
@@ -147,14 +215,14 @@ const Home: React.FC = () => {
           } rounded-md`}
         >
           <div
-            // onClick={() => handleToggle("input")}
+            onClick={() => setIsActive(!isActive)}
             className={`w-7 md:w-[34px] h-6 md:h-8 cursor-pointer flex justify-center items-center rounded-full ${
-              toggle && "bg-gradient-to-br"
+              !isActive && "bg-gradient-to-br"
             } from-[#7bbbf9] to-[#8064c6] border-2 ${
               isDarkMode ? "border-[#353648]" : "border-gray-300"
             }`}
           >
-            {toggle && <img src={icon_check} alt="icon check" />}
+            {!isActive && <img src={icon_check} alt="icon check" />}
           </div>
           <input
             className={`w-full h-full ${
@@ -178,9 +246,9 @@ const Home: React.FC = () => {
             className="overflow-y-scroll scrollbar-hide scroll-smooth"
             // onDragOver={handleDragOver}
           >
-            {list.map((item: any, index: React.Key | null | undefined) => (
+            {list.map((item: IList) => (
               <div
-                key={index}
+                key={item.id}
                 draggable
                 // onDragStart={(e) => handleDragStart(e, index)}
                 // onDrop={(e) => handleDrop(e, index)}
@@ -188,9 +256,12 @@ const Home: React.FC = () => {
                 <Tasks
                   item={item.task}
                   isDarkMode={isDarkMode}
-                  // onDelete={handleDelete}
-                  // toggle={toggle[item]}
-                  // onToggle={() => handleToggle(item)}
+                  onClick={() => deleteTodo(item.id)}
+                  checked={!item.active}
+                  onClickCheck={() => {
+                    setUpdatedIsActive(!item.active);
+                    updatedActive(item.id);
+                  }}
                 />
               </div>
             ))}
