@@ -33,8 +33,8 @@ const loginSchema = Yup.object({
 /*  ************ RRTURN ************** */
 export const SignIn: React.FC = () => {
   const [state, setState] = useState<IState>({
-    IEmail: false,
-    IPassword: false,
+    IEmail: true,
+    IPassword: true,
     isLogedIn: false,
     loading: false,
     alert: {
