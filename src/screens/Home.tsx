@@ -72,6 +72,7 @@ const Home: React.FC = () => {
 		document.documentElement.classList.toggle("dark", prefersDarkMode);
 
 		getTodoList();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const logOut = async () => {
