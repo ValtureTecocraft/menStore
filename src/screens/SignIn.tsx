@@ -180,7 +180,7 @@ export const SignIn: React.FC = () => {
           to={"/"}
           className="fixed z-30 top-5 left-5 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent cursor-pointer text-3xl font-bold select-none"
         >
-          Men's Shop
+          TODO APP
         </Link>
         <form
           onSubmit={handleSubmit}
