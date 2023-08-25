@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import loginBg from "../assets/login-bg.jpg";
+import loginBg from "../assets/login-bg.webp";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
