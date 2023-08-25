@@ -193,7 +193,7 @@ export const SignIn: React.FC = () => {
             <label
               className={`absolute duration-300 ${
                 state.IEmail
-                  ? "-top-5 left-1 text-sm font-medium"
+                  ? "-top-5 left-1 text-sm font-medium cursor-text"
                   : "top-2 left-3"
               }`}
               htmlFor="email"
@@ -219,7 +219,7 @@ export const SignIn: React.FC = () => {
             <label
               className={`absolute duration-300 ${
                 state.IPassword
-                  ? "-top-5 left-1 text-sm font-medium"
+                  ? "-top-5 left-1 text-sm font-medium cursor-text"
                   : "top-2 left-3"
               }`}
               htmlFor="password"
