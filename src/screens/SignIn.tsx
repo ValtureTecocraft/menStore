@@ -8,7 +8,6 @@ import { auth, googleProvider } from "../config/firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithPopup,
-  signOut,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import CustomizedSnackbars from "../components/Alert";
@@ -64,6 +63,7 @@ export const SignIn: React.FC = () => {
     setState({ ...state, loading: true });
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      localStorage.setItem("user", auth?.currentUser?.uid || "");
       setState({ ...state, isLogedIn: true });
       navigate("/");
       setState({ ...state, loading: false });
@@ -85,6 +85,7 @@ export const SignIn: React.FC = () => {
     setState({ ...state, loading: true });
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      localStorage.setItem("user", auth?.currentUser?.uid || "");
       setState({ ...state, isLogedIn: true });
       navigate("/");
       setState({ ...state, loading: false });
@@ -106,6 +107,7 @@ export const SignIn: React.FC = () => {
     setState({ ...state, loading: true });
     try {
       await signInWithPopup(auth, googleProvider);
+      localStorage.setItem("user", auth?.currentUser?.uid || "");
       setState({ ...state, isLogedIn: true });
       navigate("/");
       setState({ ...state, loading: false });
@@ -114,16 +116,16 @@ export const SignIn: React.FC = () => {
     }
   };
 
-  const logOut = async () => {
-    setState({ ...state, loading: true });
-    try {
-      await signOut(auth);
-      setState({ ...state, isLogedIn: false });
-      setState({ ...state, loading: false });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const logOut = async () => {
+  //   setState({ ...state, loading: true });
+  //   try {
+  //     await signOut(auth);
+  //     setState({ ...state, isLogedIn: false });
+  //     setState({ ...state, loading: false });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   // console.log(auth?.currentUser?.email);
 
@@ -240,42 +242,29 @@ export const SignIn: React.FC = () => {
             </div>
           </div>
 
-          {state.isLogedIn ? (
-            <button
-              onClick={logOut}
-              className="w-full h-10 mt-3 duration-300 text-white bg-black/80 hover:bg-black/90 font-semibold rounded-md"
-              type="button"
-            >
-              Logout
-            </button>
-          ) : (
-            <>
-              <button
-                onClick={() => signIn(values.email, values.password)}
-                className="w-full h-10 mt-3 duration-300 text-white bg-green-500/80 hover:bg-green-500/90 font-semibold rounded-md"
-                type="button"
-              >
-                Login
-              </button>
+          <button
+            onClick={() => signIn(values.email, values.password)}
+            className="w-full h-10 mt-3 duration-300 text-white bg-green-500/80 hover:bg-green-500/90 font-semibold rounded-md"
+            type="button"
+          >
+            Login
+          </button>
 
-              <button
-                onClick={() => signUp(values.email, values.password)}
-                className="w-full h-10 mt-3 duration-300 bg-white/80 hover:bg-white/90 font-semibold rounded-md"
-                type="button"
-              >
-                Sign Up
-              </button>
+          <button
+            onClick={() => signUp(values.email, values.password)}
+            className="w-full h-10 mt-3 duration-300 bg-white/80 hover:bg-white/90 font-semibold rounded-md"
+            type="button"
+          >
+            Sign Up
+          </button>
 
-              <button
-                onClick={signinWithGoogle}
-                className="w-full h-10 mt-3 duration-300 text-white bg-black/80 hover:bg-black/90 font-semibold rounded-md"
-                type="button"
-              >
-                SignIn with Google
-              </button>
-            </>
-          )}
-
+          <button
+            onClick={signinWithGoogle}
+            className="w-full h-10 mt-3 duration-300 text-white bg-black/80 hover:bg-black/90 font-semibold rounded-md"
+            type="button"
+          >
+            SignIn with Google
+          </button>
           <p className="text-center text-sm">
             Don't have account?{" "}
             <span className="font-medium duration-300 hover:text-blue-900">
