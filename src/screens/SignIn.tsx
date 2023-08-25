@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import loginBg from "../assets/login-bg.webp";
+// import loginBg from "../assets/login-bg.webp";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -171,7 +171,7 @@ export const SignIn: React.FC = () => {
       <div className="fixed z-0 top-1/2 left-1/2 scale-110 bg-[#676675] -translate-x-1/2 -translate-y-1/2 w-full h-screen overflow-hidden flex justify-center items-center">
         <img
           className="min-w-[1120px] w-screen h-screen"
-          src={loginBg}
+          src={"https://i.ibb.co/TRH1nfJ/login-bg.webp"}
           alt="bg img Login"
         />
       </div>
