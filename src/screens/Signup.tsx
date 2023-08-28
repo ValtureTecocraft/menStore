@@ -50,7 +50,7 @@ const Signup: React.FC = () => {
     mode: "all",
     resolver: yupResolver(signupSchema),
   });
-  const { register, control, handleSubmit, formState, watch, trigger } = form;
+  const { register, handleSubmit, formState, watch, trigger } = form;
   const { errors, isSubmitting } = formState;
 
   const onSubmit = (data: FormValues) => {

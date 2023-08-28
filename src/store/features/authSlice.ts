@@ -22,13 +22,10 @@ const initialState: AuthState = {
 
 const usersAPI = "http://localhost:4000/users";
 
-let userData;
-
 export const fetchUsers: any = createAsyncThunk(
   "users/fetchUsers",
   async () => {
     const data = await axios.get(usersAPI);
-    userData = await data.data;
     return data.data;
   }
 );

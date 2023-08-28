@@ -1,5 +1,3 @@
-import Login from "./Login";
-
 function Home() {
   const loggedIn = localStorage.getItem("user");
   console.log(loggedIn);

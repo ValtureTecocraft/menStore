@@ -6,8 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth";
 import { useFormik } from "formik";
 import { loginSchema } from "../schemas";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store/store";
+import { useDispatch } from "react-redux";
 import { fetchUsers, getUser } from "../store/features/authSlice";
 
 interface IState {
